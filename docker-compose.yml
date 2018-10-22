@@ -1,8 +1,7 @@
 version: '3.8'
 
 services:
-  dev:
-    container_name: edu_backend_dev
+  edu-backend:
     build:
       context: .
       target: development
@@ -15,17 +14,31 @@ services:
       - .:/usr/src/app
     restart: unless-stopped
     tty: true
-  prod:
-    container_name: edu_backend_prod
-    build:
-      context: .
-      target: production
-      dockerfile: ./Dockerfile
-    command: npm run start:prod
+    depends_on:
+      - edu-db
+#  prod:
+#    container_name: edu_backend_prod
+#    build:
+#      context: .
+#      target: production
+#      dockerfile: ./Dockerfile
+#    command: npm run start:prod
+#    ports:
+#      - 3000:3000
+#      - 9229:9229
+#    volumes:
+#      - .:/usr/src/app
+#    restart: unless-stopped
+#    tty: true
+  edu-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: edu
+      MYSQL_USER: edu_user
+      MYSQL_PASSWORD: password
     ports:
-      - 3000:3000
-      - 9229:9229
+      - 3306:3306
+    restart: always
     volumes:
-      - .:/usr/src/app
-    restart: unless-stopped
-    tty: true
+      - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf
