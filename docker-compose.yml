@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  dev:
+    container_name: edu_backend_dev
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm run start:debug
+    ports:
+      - 3000:3000
+      - 9229:9229
+    volumes:
+      - .:/usr/src/app
+    restart: unless-stopped
+    tty: true
+  prod:
+    container_name: edu_backend_prod
+    build:
+      context: .
+      target: production
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    ports:
+      - 3000:3000
+      - 9229:9229
+    volumes:
+      - .:/usr/src/app
+    restart: unless-stopped
+    tty: true
