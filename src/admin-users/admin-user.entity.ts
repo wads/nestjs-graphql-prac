@@ -5,7 +5,18 @@ export class AdminUser {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false, comment: 'ユーザー名' })
+  @Column({
+    unique: true,
+    nullable: false,
+    comment: 'メールアドレス',
+  })
+  email: string;
+
+  @Column({
+    unique: true,
+    nullable: false,
+    comment: 'ユーザー名',
+  })
   userName: string;
 
   @Column({ nullable: false, comment: 'パスワード' })
