@@ -1,10 +1,17 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
 import CreateAdminUserDto from 'src/admin-users/dto/createAdminUser.dto';
+import TokenPayload from './tokenPayload.interface';
 import * as bcrypt from 'bcrypt';
 
 export class AuthService {
-  constructor(private readonly adminUsersService: AdminUsersService) {}
+  constructor(
+    private readonly adminUsersService: AdminUsersService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   public async register(adminUserData: CreateAdminUserDto) {
     const hashedPassword = await bcrypt.hash(adminUserData.password, 10);
@@ -38,6 +45,18 @@ export class AuthService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  public getCookieWithJwtToken(adminUserId: number) {
+    const payload: TokenPayload = { adminUserId };
+    const token = this.jwtService.sign(payload);
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'jwt_expiration_time',
+    )}`;
+  }
+
+  public getCookieForLogOut() {
+    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
   }
 
   private async verifyPassword(

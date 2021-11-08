@@ -11,6 +11,17 @@ export class AdminUsersService {
     private adminUsersRepository: Repository<AdminUser>,
   ) {}
 
+  async getById(id: number) {
+    const adminUser = await this.adminUsersRepository.findOne({ id });
+    if (adminUser) {
+      return adminUser;
+    }
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
   async getByEmail(email: string) {
     const adminUser = await this.adminUsersRepository.findOne({ email });
     if (adminUser) {
