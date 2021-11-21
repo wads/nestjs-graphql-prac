@@ -1,11 +1,12 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
 import CreateAdminUserDto from 'src/admin-users/dto/createAdminUser.dto';
 import TokenPayload from './tokenPayload.interface';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
+@Injectable()
 export class AuthService {
   constructor(
     private readonly adminUsersService: AdminUsersService,
@@ -20,12 +21,9 @@ export class AuthService {
         ...adminUserData,
         password: hashedPassword,
       });
-      createdAdminUser.password = undefined;
       return createdAdminUser;
     } catch (error) {
-      //if (error?.code === PostgresErrorCode.UniqueViolation) {
-      //  throw new HttpException('User with that email already exists', HttpStatus.BAD_REQUEST);
-      //}
+      console.log(error);
       throw new HttpException(
         'Something went wrong',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -37,7 +35,6 @@ export class AuthService {
     try {
       const adminUser = await this.adminUsersService.getByEmail(email);
       await this.verifyPassword(plainTextPassword, adminUser.password);
-      adminUser.password = undefined;
       return adminUser;
     } catch (error) {
       throw new HttpException(

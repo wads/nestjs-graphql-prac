@@ -1,16 +1,19 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Req,
   Res,
   Controller,
   HttpCode,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './localAuth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { AdminUser } from 'src/admin-users/admin-user.entity';
 import CreateAdminUserDto from 'src/admin-users/dto/createAdminUser.dto';
 import RequestWithUser from './requestWithUser.interface';
 
@@ -18,6 +21,7 @@ import RequestWithUser from './requestWithUser.interface';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post('register')
   async register(@Body() registrationData: CreateAdminUserDto) {
     return this.authService.register(registrationData);
@@ -25,9 +29,10 @@ export class AuthController {
 
   @HttpCode(200)
   @UseGuards(LocalAuthGuard)
+  //@UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
   async logIn(@Req() request: RequestWithUser, @Res() response: Response) {
-    const { adminUser } = request;
+    const adminUser = request.user as AdminUser;
     response.set({
       'Set-Cookie': [this.authService.getCookieWithJwtToken(adminUser.id)],
     });
