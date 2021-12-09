@@ -11,7 +11,11 @@ export class AdminUsersService {
     private adminUsersRepository: Repository<AdminUser>,
   ) {}
 
-  async getById(id: number) {
+  async find() {
+    return await this.adminUsersRepository.find({ take: 20 });
+  }
+
+  async findById(id: number) {
     const adminUser = await this.adminUsersRepository.findOne({ id });
     if (adminUser) {
       return adminUser;
@@ -22,7 +26,7 @@ export class AdminUsersService {
     );
   }
 
-  async getByEmail(email: string) {
+  async findByEmail(email: string) {
     const adminUser = await this.adminUsersRepository.findOne({ email });
     if (adminUser) {
       return adminUser;

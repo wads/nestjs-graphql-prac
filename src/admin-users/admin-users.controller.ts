@@ -15,8 +15,14 @@ export class AdminUsersController {
   constructor(private readonly adminUsersService: AdminUsersService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get()
+  async index() {
+    return this.adminUsersService.find();
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async show(@Param() params) {
-    return this.adminUsersService.getById(params.id);
+    return this.adminUsersService.findById(params.id);
   }
 }

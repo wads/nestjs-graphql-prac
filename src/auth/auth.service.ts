@@ -33,7 +33,7 @@ export class AuthService {
 
   public async getAuthenticatedUser(email: string, plainTextPassword: string) {
     try {
-      const adminUser = await this.adminUsersService.getByEmail(email);
+      const adminUser = await this.adminUsersService.findByEmail(email);
       await this.verifyPassword(plainTextPassword, adminUser.password);
       return adminUser;
     } catch (error) {
