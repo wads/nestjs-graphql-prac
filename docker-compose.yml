@@ -32,6 +32,7 @@ services:
 #    tty: true
   edu-db:
     image: mysql:8.0
+    platform: linux/x86_64
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: edu
