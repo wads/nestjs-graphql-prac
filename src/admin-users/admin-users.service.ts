@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import AdminUser from './admin-user.entity';
 import CreateAdminUserDto from './dto/createAdminUser.dto';
+import ListAdminUserDto from './dto/listAdminUser.dto';
 
 @Injectable()
 export class AdminUsersService {
@@ -11,8 +12,17 @@ export class AdminUsersService {
     private adminUsersRepository: Repository<AdminUser>,
   ) {}
 
-  async find() {
-    return await this.adminUsersRepository.find({ take: 20 });
+  async count() {
+    return await this.adminUsersRepository.count();
+  }
+
+  async find(dto: ListAdminUserDto) {
+    const skip = dto.page * dto.page_size;
+    return await this.adminUsersRepository.find({
+      order: { id: 'DESC' },
+      take: dto.page_size,
+      skip: skip,
+    });
   }
 
   async findById(id: number) {
