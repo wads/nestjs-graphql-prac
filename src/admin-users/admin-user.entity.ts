@@ -27,5 +27,3 @@ export class AdminUser {
   @Column({ default: true })
   isActive: boolean;
 }
-
-export default AdminUser;

@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import AdminUser from './admin-user.entity';
-import CreateAdminUserDto from './dto/createAdminUser.dto';
-import ListAdminUserDto from './dto/listAdminUser.dto';
+import { AdminUser } from './admin-user.entity';
+import { CreateAdminUserDto } from './dto/createAdminUser.dto';
+import { ListAdminUserDto } from './dto/listAdminUser.dto';
 
 @Injectable()
 export class AdminUsersService {
@@ -48,7 +48,7 @@ export class AdminUsersService {
   }
 
   async create(adminUserData: CreateAdminUserDto) {
-    const newUser = await this.adminUsersRepository.create(adminUserData);
+    const newUser = this.adminUsersRepository.create(adminUserData);
     await this.adminUsersRepository.save(newUser);
     return newUser;
   }

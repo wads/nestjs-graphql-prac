@@ -1,15 +1,18 @@
 import {
+  Body,
   ClassSerializerInterceptor,
   Controller,
   Get,
   Param,
+  Put,
   Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AdminUsersService } from './admin-users.service';
-import ListAdminUserDto from './dto/listAdminUser.dto';
+import { ListAdminUserDto } from './dto/listAdminUser.dto';
+import { UpdateAdminUserDto } from './dto/updateAdminUser.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('admin-users')
@@ -37,7 +40,13 @@ export class AdminUsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async show(@Param() params) {
-    return this.adminUsersService.findById(params.id);
+  async show(@Param('id') id: number) {
+    return this.adminUsersService.findById(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put(':id')
+  async update(@Body() dto: UpdateAdminUserDto) {
+    console.log(dto);
   }
 }

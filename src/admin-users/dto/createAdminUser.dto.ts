@@ -1,7 +1,22 @@
-export class CreateAdminUserDto {
-  email: string;
-  userName: string;
-  password: string;
-}
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  Length,
+  MaxLength,
+} from 'class-validator';
 
-export default CreateAdminUserDto;
+export class CreateAdminUserDto {
+  @IsEmail()
+  email: string;
+
+  @Length(8, 255)
+  password: string;
+
+  @IsNotEmpty()
+  @MaxLength(50)
+  userName: string;
+
+  @IsBoolean()
+  isActive: boolean;
+}

@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
-import CreateAdminUserDto from 'src/admin-users/dto/createAdminUser.dto';
+import { CreateAdminUserDto } from 'src/admin-users/dto/createAdminUser.dto';
 import TokenPayload from './tokenPayload.interface';
 import * as bcrypt from 'bcryptjs';
 
