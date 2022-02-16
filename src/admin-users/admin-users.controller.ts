@@ -41,12 +41,14 @@ export class AdminUsersController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async show(@Param('id') id: number) {
+    // TODO: 権限チェック
     return this.adminUsersService.findById(id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  async update(@Body() dto: UpdateAdminUserDto) {
-    console.log(dto);
+  async update(@Param('id') id: number, @Body() dto: UpdateAdminUserDto) {
+    // TODO: 権限チェック
+    return this.adminUsersService.update(id, dto);
   }
 }

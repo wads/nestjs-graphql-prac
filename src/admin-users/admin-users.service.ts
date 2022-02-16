@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { AdminUser } from './admin-user.entity';
 import { CreateAdminUserDto } from './dto/createAdminUser.dto';
 import { ListAdminUserDto } from './dto/listAdminUser.dto';
+import { UpdateAdminUserDto } from './dto/updateAdminUser.dto';
 
 @Injectable()
 export class AdminUsersService {
@@ -47,9 +48,13 @@ export class AdminUsersService {
     );
   }
 
-  async create(adminUserData: CreateAdminUserDto) {
-    const newUser = this.adminUsersRepository.create(adminUserData);
-    await this.adminUsersRepository.save(newUser);
-    return newUser;
+  async create(dto: CreateAdminUserDto) {
+    const adminUser = this.adminUsersRepository.create(dto);
+    return await this.adminUsersRepository.save(adminUser);
+  }
+
+  async update(id: number, dto: UpdateAdminUserDto) {
+    await this.adminUsersRepository.update(id, dto);
+    return;
   }
 }

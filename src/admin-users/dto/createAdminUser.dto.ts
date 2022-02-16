@@ -10,7 +10,7 @@ export class CreateAdminUserDto {
   @IsEmail()
   email: string;
 
-  @Length(8, 255)
+  @Length(8, 50)
   password: string;
 
   @IsNotEmpty()
