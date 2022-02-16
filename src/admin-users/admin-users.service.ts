@@ -57,4 +57,9 @@ export class AdminUsersService {
     await this.adminUsersRepository.update(id, dto);
     return;
   }
+
+  async delete(id: number) {
+    await this.adminUsersRepository.softDelete(id);
+    return;
+  }
 }

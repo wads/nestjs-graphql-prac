@@ -2,7 +2,9 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Param,
   Put,
   Query,
@@ -46,9 +48,17 @@ export class AdminUsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
   @Put(':id')
   async update(@Param('id') id: number, @Body() dto: UpdateAdminUserDto) {
     // TODO: 権限チェック
     return this.adminUsersService.update(id, dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
+  @Delete(':id')
+  async delete(@Param('id') id: number) {
+    return this.adminUsersService.delete(id);
   }
 }

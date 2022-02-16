@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -26,4 +33,14 @@ export class AdminUser {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @CreateDateColumn({ comment: '作成日時' })
+  readonly createdAt?: Date;
+
+  @UpdateDateColumn({ comment: '更新日時' })
+  readonly updatedAt?: Date;
+
+  @Exclude()
+  @DeleteDateColumn({ comment: '削除日時' })
+  readonly deletedAt?: Date;
 }
