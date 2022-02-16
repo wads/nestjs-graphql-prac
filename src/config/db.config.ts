@@ -1,4 +1,4 @@
-import { ConnectionOptions } from 'typeorm';
+import { ConnectionOptions, LoggerOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -13,5 +13,6 @@ const config: ConnectionOptions = {
   synchronize: false,
   migrations: ['dist/migrations/*{.ts,.js}'],
   cli: { migrationsDir: 'src/migrations' },
+  logging: process.env.DB_LOGGING.split(',') as LoggerOptions,
 };
 export = config;
