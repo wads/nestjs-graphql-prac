@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { AdminUser } from 'src/admin-users/admin-user.entity';
+import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
 
 interface RequestWithUser extends Request {
   adminUser: AdminUser;

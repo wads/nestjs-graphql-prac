@@ -13,8 +13,8 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './localAuth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { AdminUser } from 'src/admin-users/admin-user.entity';
-import { CreateAdminUserDto } from 'src/admin-users/dto/createAdminUser.dto';
+import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
+import { CreateAdminUserDto } from 'src/admin-users/dto/create-admin-user.dto';
 import RequestWithUser from './requestWithUser.interface';
 
 @Controller('auth')

@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AdminUser } from './admin-user.entity';
-import { CreateAdminUserDto } from './dto/createAdminUser.dto';
-import { ListAdminUserDto } from './dto/listAdminUser.dto';
-import { UpdateAdminUserDto } from './dto/updateAdminUser.dto';
+import { AdminUser } from './entities/admin-user.entity';
+import { CreateAdminUserDto } from './dto/create-admin-user.dto';
+import { ListAdminUserDto } from './dto/list-admin-user.dto';
+import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
 
 @Injectable()
 export class AdminUsersService {
@@ -13,11 +13,16 @@ export class AdminUsersService {
     private adminUsersRepository: Repository<AdminUser>,
   ) {}
 
+  async create(dto: CreateAdminUserDto) {
+    const adminUser = this.adminUsersRepository.create(dto);
+    return await this.adminUsersRepository.save(adminUser);
+  }
+
   async count() {
     return await this.adminUsersRepository.count();
   }
 
-  async find(dto: ListAdminUserDto) {
+  async findAll(dto: ListAdminUserDto) {
     const skip = dto.page * dto.page_size;
     return await this.adminUsersRepository.find({
       order: { id: 'DESC' },
@@ -26,8 +31,8 @@ export class AdminUsersService {
     });
   }
 
-  async findById(id: number) {
-    const adminUser = await this.adminUsersRepository.findOne({ id });
+  async findOne(id: number) {
+    const adminUser = await this.adminUsersRepository.findOne(id);
     if (adminUser) {
       return adminUser;
     }
@@ -38,7 +43,7 @@ export class AdminUsersService {
   }
 
   async findByEmail(email: string) {
-    const adminUser = await this.adminUsersRepository.findOne({ email });
+    const adminUser = await this.adminUsersRepository.findOne({ email: email });
     if (adminUser) {
       return adminUser;
     }
@@ -48,14 +53,10 @@ export class AdminUsersService {
     );
   }
 
-  async create(dto: CreateAdminUserDto) {
-    const adminUser = this.adminUsersRepository.create(dto);
-    return await this.adminUsersRepository.save(adminUser);
-  }
-
   async update(id: number, dto: UpdateAdminUserDto) {
-    await this.adminUsersRepository.update(id, dto);
-    return;
+    const adminUser = await this.findOne(id);
+    this.adminUsersRepository.merge(adminUser, dto);
+    return await this.adminUsersRepository.save(adminUser);
   }
 
   async delete(id: number) {

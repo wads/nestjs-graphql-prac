@@ -7,7 +7,7 @@ import { AdminUsersModule } from 'src/admin-users/admin-users.module';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { AdminUser } from 'src/admin-users/admin-user.entity';
+import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 

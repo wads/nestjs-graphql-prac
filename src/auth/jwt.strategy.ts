@@ -9,7 +9,7 @@ import TokenPayload from './tokenPayload.interface';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private readonly configService: ConfigService,
+    readonly configService: ConfigService,
     private readonly adminUsersService: AdminUsersService,
   ) {
     super({
@@ -23,6 +23,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: TokenPayload) {
-    return this.adminUsersService.findById(payload.adminUserId);
+    return this.adminUsersService.findOne(payload.adminUserId);
   }
 }
