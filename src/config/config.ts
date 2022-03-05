@@ -11,7 +11,7 @@ export default () => ({
     sameSite: 'lax',
   },
   csrf_token: {
-    name: 'EDU_XSRF_TOKEN',
+    name: 'edu_xsrf_token',
     max_age: 86400,
   },
   jwt: {
