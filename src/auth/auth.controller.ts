@@ -8,7 +8,6 @@ import {
   Post,
   UseGuards,
   UseInterceptors,
-  Get,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
