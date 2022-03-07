@@ -2,17 +2,17 @@ export default () => ({
   env: process.env.NODE_ENV,
   cors: {
     credentials: true,
-    origin: ['http://localhost:4200'],
+    origin: process.env.CORS_ORIGINS.split(','),
     allowedHeaders: ['Content-Type', 'X-XSRF-Token'],
   },
   csrf_cookie: {
-    maxAge: 60,
+    maxAge: process.env.XSRF_TOKEN_MAX_AGE,
     secure: process.env.NODE_ENV != 'local',
     sameSite: 'lax',
   },
   csrf_token: {
     name: 'edu_xsrf_token',
-    max_age: 86400,
+    max_age: process.env.XSRF_TOKEN_MAX_AGE,
   },
   jwt: {
     secret: process.env.JWT_SECRET,

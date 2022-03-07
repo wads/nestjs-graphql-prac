@@ -8,6 +8,7 @@ import {
   Post,
   UseGuards,
   UseInterceptors,
+  Get,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
@@ -29,7 +30,6 @@ export class AuthController {
 
   @HttpCode(200)
   @UseGuards(LocalAuthGuard)
-  //@UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
   async logIn(@Req() request: RequestWithUser, @Res() response: Response) {
     const adminUser = request.user as AdminUser;
