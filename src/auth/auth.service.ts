@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
-import { CreateAdminUserDto } from 'src/admin-users/dto/create-admin-user.dto';
 import TokenPayload from './tokenPayload.interface';
 import * as bcrypt from 'bcryptjs';
 
@@ -14,33 +14,30 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async register(adminUserData: CreateAdminUserDto) {
-    const hashedPassword = await bcrypt.hash(adminUserData.password, 10);
-    try {
-      const createdAdminUser = await this.adminUsersService.create({
-        ...adminUserData,
-        password: hashedPassword,
-      });
-      return createdAdminUser;
-    } catch (error) {
-      console.log(error);
-      throw new HttpException(
-        'Something went wrong',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
+  // TODO: 一般ユーザーではないのでregisterは不要
+  // public async register(adminUserData: CreateAdminUserDto) {
+  //   try {
+  //     const createdAdminUser = await this.adminUsersService.create(
+  //       adminUserData,
+  //     );
+  //     return createdAdminUser;
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new HttpException(
+  //       'Something went wrong',
+  //       HttpStatus.INTERNAL_SERVER_ERROR,
+  //     );
+  //   }
+  // }
 
   public async getAuthenticatedUser(email: string, plainTextPassword: string) {
     try {
       const adminUser = await this.adminUsersService.findByEmail(email);
       await this.verifyPassword(plainTextPassword, adminUser.password);
+      this.verifyAdminUser(adminUser);
       return adminUser;
     } catch (error) {
-      throw new HttpException(
-        'Wrong credentials provided',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -70,6 +67,12 @@ export class AuthService {
         'Wrong credentials provided',
         HttpStatus.BAD_REQUEST,
       );
+    }
+  }
+
+  private verifyAdminUser(adminUser: AdminUser) {
+    if (!adminUser.isActive) {
+      throw new HttpException('Invalid admin user', HttpStatus.BAD_REQUEST);
     }
   }
 }

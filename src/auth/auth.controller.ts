@@ -1,31 +1,29 @@
 import {
-  Body,
-  ClassSerializerInterceptor,
   Req,
   Res,
   Controller,
   HttpCode,
   Post,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './localAuth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
-import { CreateAdminUserDto } from 'src/admin-users/dto/create-admin-user.dto';
 import RequestWithUser from './requestWithUser.interface';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Post('register')
-  async register(@Body() registrationData: CreateAdminUserDto) {
-    return this.authService.register(registrationData);
-  }
+  // TODO: 一般ユーザーではないのでregisterは不要
+  // @UseInterceptors(ClassSerializerInterceptor)
+  // @UseGuards(JwtAuthGuard)
+  // @Post('register')
+  // async register(@Body() registrationData: CreateAdminUserDto) {
+  //   return this.authService.register(registrationData);
+  // }
 
   @HttpCode(200)
   @UseGuards(LocalAuthGuard)

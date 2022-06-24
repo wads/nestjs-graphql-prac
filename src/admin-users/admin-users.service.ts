@@ -5,6 +5,7 @@ import { AdminUser } from './entities/admin-user.entity';
 import { CreateAdminUserDto } from './dto/create-admin-user.dto';
 import { ListAdminUserDto } from './dto/list-admin-user.dto';
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AdminUsersService {
@@ -14,7 +15,10 @@ export class AdminUsersService {
   ) {}
 
   async create(dto: CreateAdminUserDto) {
-    const adminUser = this.adminUsersRepository.create(dto);
+    const adminUser = this.adminUsersRepository.create({
+      ...dto,
+      password: await this.hassingString(dto.password),
+    });
     return await this.adminUsersRepository.save(adminUser);
   }
 
@@ -62,5 +66,9 @@ export class AdminUsersService {
   async delete(id: number) {
     await this.adminUsersRepository.softDelete(id);
     return;
+  }
+
+  private async hassingString(str: string) {
+    return await bcrypt.hash(str, 10);
   }
 }
