@@ -20,8 +20,8 @@ export class XsrfTokenInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap(() => {
         const token = req['csrfToken']?.();
-        const name = this.configService.get('csrf_token.name');
-        const maxAge = this.configService.get('csrf_token.max_age');
+        const name = this.configService.get('xsrf.token.name');
+        const maxAge = this.configService.get('xsrf.token.max_age');
         res.setHeader(
           'Set-Cookie',
           `${name}=${token}; Path=/; Max-Age=${maxAge}`,

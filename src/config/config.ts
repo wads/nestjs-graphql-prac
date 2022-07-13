@@ -5,14 +5,16 @@ export default () => ({
     origin: process.env.CORS_ORIGINS.split(','),
     allowedHeaders: ['Content-Type', 'X-XSRF-Token'],
   },
-  csrf_cookie: {
-    maxAge: process.env.XSRF_TOKEN_MAX_AGE,
-    secure: process.env.NODE_ENV != 'local',
-    sameSite: 'lax',
-  },
-  csrf_token: {
-    name: 'edu_xsrf_token',
-    max_age: process.env.XSRF_TOKEN_MAX_AGE,
+  xsrf: {
+    cookie: {
+      maxAge: process.env.XSRF_TOKEN_MAX_AGE,
+      secure: process.env.NODE_ENV != 'local',
+      sameSite: 'lax',
+    },
+    token: {
+      name: 'edu_xsrf_token',
+      max_age: process.env.XSRF_TOKEN_MAX_AGE,
+    },
   },
   jwt: {
     secret: process.env.JWT_SECRET,

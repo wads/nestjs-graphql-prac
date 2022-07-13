@@ -15,7 +15,7 @@ async function bootstrap() {
   });
   app.enableCors(configService.get('cors'));
   app.use(cookieParser());
-  app.use(csurf({ cookie: configService.get('csrf_cookie') }));
+  app.use(csurf({ cookie: configService.get('xsrf.cookie') }));
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
