@@ -9,3 +9,5 @@ down:
 	${DOCKER_COMPOSE} down
 build:
 	${DOCKER_COMPOSE} build
+migration:
+	${DOCKER_COMPOSE} exec edu-backend npm run typeorm migration:generate -- -n ${migration_name}
