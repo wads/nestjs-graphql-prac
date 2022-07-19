@@ -9,11 +9,11 @@ import { AuthModule } from './auth/auth.module';
 import { XsrfTokenInterceptor } from './common/interceptors/xsrf-token.interceptor';
 import { TokenController } from './token/token.controller';
 import config from './config/config';
-import * as dbConfig from './config/db.config';
+import { dbOptions } from './config/db.config';
 
 // For typeorm cli (migration)
 export function DatabaseOrmModule(): DynamicModule {
-  return TypeOrmModule.forRoot(dbConfig);
+  return TypeOrmModule.forRoot(dbOptions);
 }
 
 @Module({
@@ -22,7 +22,7 @@ export function DatabaseOrmModule(): DynamicModule {
       isGlobal: true,
       load: [config],
     }),
-    TypeOrmModule.forRoot(dbConfig),
+    TypeOrmModule.forRoot(dbOptions),
     AdminUsersModule,
     AuthModule,
   ],

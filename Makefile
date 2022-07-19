@@ -9,5 +9,7 @@ down:
 	${DOCKER_COMPOSE} down
 build:
 	${DOCKER_COMPOSE} build
-migration:
+migration-gen:
 	${DOCKER_COMPOSE} exec edu-backend npm run typeorm migration:generate -- -n ${migration_name}
+migration-run:
+	${DOCKER_COMPOSE} exec edu-backend npm run typeorm migration:run -- -d ./src/config/db.config.ts

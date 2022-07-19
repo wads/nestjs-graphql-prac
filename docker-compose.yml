@@ -39,7 +39,7 @@ services:
       MYSQL_USER: edu_user
       MYSQL_PASSWORD: password
     ports:
-      - 3306:3306
+      - 33306:3306
     restart: always
     volumes:
       - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf

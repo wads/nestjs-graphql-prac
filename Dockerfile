@@ -1,15 +1,16 @@
-FROM node:14.18.1-alpine3.13 AS development
+FROM node:16.17.0-alpine3.16 AS development
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY tsconfig.build.json ./
 
 RUN npm install glob rimraf
 RUN npm install --only=development
 
 RUN npm run build
 
-FROM node:14.18.1-alpine3.13 AS production
+FROM node:16.17.0-alpine3.16 AS production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -17,6 +18,7 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY tsconfig.build.json ./
 
 RUN npm install --only=production
 

@@ -36,7 +36,9 @@ export class AdminUsersService {
   }
 
   async findOne(id: number) {
-    const adminUser = await this.adminUsersRepository.findOne(id);
+    const adminUser = await this.adminUsersRepository.findOne({
+      where: { id: id },
+    });
     if (adminUser) {
       return adminUser;
     }
@@ -47,7 +49,9 @@ export class AdminUsersService {
   }
 
   async findByEmail(email: string) {
-    const adminUser = await this.adminUsersRepository.findOne({ email: email });
+    const adminUser = await this.adminUsersRepository.findOne({
+      where: { email: email },
+    });
     if (adminUser) {
       return adminUser;
     }
