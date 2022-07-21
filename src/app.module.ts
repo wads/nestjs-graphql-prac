@@ -1,7 +1,10 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
 import { AdminUsersModule } from './admin-users/admin-users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,11 +14,6 @@ import { TokenController } from './token/token.controller';
 import config from './config/config';
 import { dbOptions } from './config/db.config';
 
-// For typeorm cli (migration)
-export function DatabaseOrmModule(): DynamicModule {
-  return TypeOrmModule.forRoot(dbOptions);
-}
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,16 +21,22 @@ export function DatabaseOrmModule(): DynamicModule {
       load: [config],
     }),
     TypeOrmModule.forRoot(dbOptions),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      debug: config()['apollo']['debug'],
+      playground: config()['apollo']['playground'],
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    }),
     AdminUsersModule,
     AuthModule,
   ],
   controllers: [AppController, TokenController],
   providers: [
     AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: XsrfTokenInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: XsrfTokenInterceptor,
+    // },
   ],
 })
 export class AppModule {}

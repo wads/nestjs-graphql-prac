@@ -13,7 +13,6 @@ const dbOptions: TypeOrmModuleOptions = {
   entities: ['dist/**/*.entity{.ts,.js}'],
   synchronize: false,
   migrations: ['dist/migrations/*{.ts,.js}'],
-  // cli: { migrationsDir: 'src/migrations' },
   logging: process.env.DB_LOGGING.split(',') as LoggerOptions,
 };
 export { dbOptions };

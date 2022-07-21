@@ -6,6 +6,7 @@ import { CreateAdminUserDto } from './dto/create-admin-user.dto';
 import { ListAdminUserDto } from './dto/list-admin-user.dto';
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
 import * as bcrypt from 'bcryptjs';
+import { CreateAdminUserInput } from './dto/create-admin-user.input';
 
 @Injectable()
 export class AdminUsersService {
@@ -14,7 +15,7 @@ export class AdminUsersService {
     private adminUsersRepository: Repository<AdminUser>,
   ) {}
 
-  async create(dto: CreateAdminUserDto) {
+  async create(dto: CreateAdminUserDto | CreateAdminUserInput) {
     const adminUser = this.adminUsersRepository.create({
       ...dto,
       password: await this.hassingString(dto.password),
