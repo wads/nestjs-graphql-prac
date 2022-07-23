@@ -27,7 +27,9 @@ input ListAdminUserInput {
 }
 
 type Mutation {
-  createAdminUser(data: CreateAdminUserInput!): AdminUser!
+  createOneAdminUser(data: CreateAdminUserInput!): AdminUser!
+  updateOneAdminUser(id: Int!, data: UpdateAdminUserInput!): AdminUser!
+  deleteOneAdminUser(id: Int!): AdminUser
 }
 
 input CreateAdminUserInput {
@@ -35,4 +37,8 @@ input CreateAdminUserInput {
   password: String!
   userName: String!
   isActive: Boolean
+}
+
+input UpdateAdminUserInput {
+  isActive: Boolean!
 }
