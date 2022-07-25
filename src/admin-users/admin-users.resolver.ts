@@ -1,6 +1,7 @@
 import {
   InternalServerErrorException,
   UnprocessableEntityException,
+  UseGuards,
 } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AdminUsersService } from './admin-users.service';
@@ -8,23 +9,27 @@ import { AdminUser } from './models/admin-user.model';
 import { CreateAdminUserInput } from './dto/create-admin-user.input';
 import { ListAdminUserInput } from './dto/list-admin-user.input';
 import { UpdateAdminUserInput } from './dto/update-admin-user.input';
+import { GqlJwtAuthGuard } from 'src/auth/guards/gql-jwt-auth.guard';
 
-@Resolver((of) => AdminUser)
+@Resolver(() => AdminUser)
 export class AdminUsersResolver {
   constructor(private readonly adminUsersService: AdminUsersService) {}
 
-  @Query((returns) => [AdminUser], { name: 'adminUsers' })
+  @Query(() => [AdminUser], { name: 'adminUsers' })
+  @UseGuards(GqlJwtAuthGuard)
   async findAll(@Args('query') query: ListAdminUserInput) {
     // TODL: pagination つけて返す
     return await this.adminUsersService.findAll(query);
   }
 
-  @Query((returns) => AdminUser, { name: 'adminUser' })
+  @Query(() => AdminUser, { name: 'adminUser' })
+  @UseGuards(GqlJwtAuthGuard)
   async findOne(@Args('id', { type: () => Int }) id: number) {
     return this.adminUsersService.findOne(id);
   }
 
-  @Mutation((returns) => AdminUser, { name: 'createOneAdminUser' })
+  @Mutation(() => AdminUser, { name: 'createOneAdminUser' })
+  @UseGuards(GqlJwtAuthGuard)
   async createOne(@Args('data') inputData: CreateAdminUserInput) {
     // TODO: 権限チェック
     try {
@@ -39,7 +44,8 @@ export class AdminUsersResolver {
     }
   }
 
-  @Mutation((returns) => AdminUser, { name: 'updateOneAdminUser' })
+  @Mutation(() => AdminUser, { name: 'updateOneAdminUser' })
+  @UseGuards(GqlJwtAuthGuard)
   async updateOne(
     @Args('id', { type: () => Int }) id: number,
     @Args('data') inputData: UpdateAdminUserInput,
@@ -48,10 +54,11 @@ export class AdminUsersResolver {
     return this.adminUsersService.update(id, inputData);
   }
 
-  @Mutation((returns) => AdminUser, {
+  @Mutation(() => AdminUser, {
     nullable: true,
     name: 'deleteOneAdminUser',
   })
+  @UseGuards(GqlJwtAuthGuard)
   async deleteOne(@Args('id', { type: () => Int }) id: number) {
     // TODO: 権限チェック
     return this.adminUsersService.delete(id);

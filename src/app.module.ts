@@ -26,6 +26,7 @@ import { dbOptions } from './config/db.config';
       debug: config()['apollo']['debug'],
       playground: config()['apollo']['playground'],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      context: ({ req, res }) => ({ req, res }),
     }),
     AdminUsersModule,
     AuthModule,

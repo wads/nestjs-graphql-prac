@@ -8,10 +8,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './localAuth.guard';
+import { LocalAuthGuard } from './local-auth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
-import RequestWithUser from './requestWithUser.interface';
+import RequestWithAdminUser from './interfaces/request-with-admin-user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -28,7 +28,7 @@ export class AuthController {
   @HttpCode(200)
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async logIn(@Req() request: RequestWithUser, @Res() response: Response) {
+  async logIn(@Req() request: RequestWithAdminUser, @Res() response: Response) {
     const adminUser = request.user as AdminUser;
     response.set({
       'Set-Cookie': [this.authService.getCookieWithJwtToken(adminUser.id)],

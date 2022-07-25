@@ -3,7 +3,7 @@ import { GraphQLBoolean } from 'graphql';
 
 @ObjectType()
 export class AdminUser {
-  @Field((type) => Int)
+  @Field(() => Int)
   id: number;
 
   @Field()
@@ -14,13 +14,13 @@ export class AdminUser {
 
   password: string;
 
-  @Field((type) => GraphQLBoolean)
+  @Field(() => GraphQLBoolean)
   isActive: boolean;
 
-  @Field((type) => GraphQLISODateTime, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;
 
-  @Field((type) => GraphQLISODateTime, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date;
 
   deletedAt?: Date;
