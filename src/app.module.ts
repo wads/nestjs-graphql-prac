@@ -22,11 +22,15 @@ import { dbOptions } from './config/db.config';
     }),
     TypeOrmModule.forRoot(dbOptions),
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      debug: config()['apollo']['debug'],
-      playground: config()['apollo']['playground'],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      debug: config()['apollo']['debug'],
+      driver: ApolloDriver,
       context: ({ req, res }) => ({ req, res }),
+      cors: {
+        origin: config()['cors']['origin'],
+        credentials: true,
+      },
+      playground: config()['apollo']['playground'],
     }),
     AdminUsersModule,
     AuthModule,
