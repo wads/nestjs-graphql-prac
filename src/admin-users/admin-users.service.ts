@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AdminUser } from './entities/admin-user.entity';
 import { CreateAdminUserDto } from './dto/create-admin-user.dto';
-import { ListAdminUserDto } from './dto/list-admin-user.dto';
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { CreateAdminUserInput } from './dto/create-admin-user.input';
+import { OffsetLimitPaginationInput } from 'src/common/dto/offset-limit-pagination.input';
 
 @Injectable()
 export class AdminUsersService {
@@ -27,12 +27,11 @@ export class AdminUsersService {
     return await this.adminUsersRepository.count();
   }
 
-  async findAll(dto: ListAdminUserDto) {
-    const skip = dto.page * dto.page_size;
+  async findAll(input: OffsetLimitPaginationInput) {
     return await this.adminUsersRepository.find({
       order: { id: 'DESC' },
-      take: dto.page_size,
-      skip: skip,
+      take: input.limit,
+      skip: input.offset,
     });
   }
 

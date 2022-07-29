@@ -51,9 +51,13 @@ export class AdminUsersController {
     if (!query.page_size) {
       query.page_size = 30;
     }
+    const offset = query.page / query.page_size;
 
     return {
-      data: await this.adminUsersService.findAll(query),
+      items: await this.adminUsersService.findAll({
+        offset: offset,
+        limit: query.page_size,
+      }),
       total_count: await this.adminUsersService.count(),
       page: query.page,
       page_size: query.page_size,

@@ -6,20 +6,27 @@ import {
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AdminUsersService } from './admin-users.service';
 import { AdminUser } from './models/admin-user.model';
+import { AdminUserList } from './models/admin-user-list.model';
 import { CreateAdminUserInput } from './dto/create-admin-user.input';
-import { ListAdminUserInput } from './dto/list-admin-user.input';
 import { UpdateAdminUserInput } from './dto/update-admin-user.input';
 import { GqlJwtAuthGuard } from 'src/auth/guards/gql-jwt-auth.guard';
+import { OffsetLimitPaginationInput } from 'src/common/dto/offset-limit-pagination.input';
 
 @Resolver(() => AdminUser)
 export class AdminUsersResolver {
   constructor(private readonly adminUsersService: AdminUsersService) {}
 
-  @Query(() => [AdminUser], { name: 'adminUsers' })
+  @Query(() => AdminUserList, { name: 'adminUsers' })
   @UseGuards(GqlJwtAuthGuard)
-  async findAll(@Args('query') query: ListAdminUserInput) {
-    // TODL: pagination つけて返す
-    return await this.adminUsersService.findAll(query);
+  async findAll(
+    @Args('query', { nullable: true }) input?: OffsetLimitPaginationInput,
+  ) {
+    return {
+      offset: input.offset,
+      limit: input.limit,
+      total: await this.adminUsersService.count(),
+      items: await this.adminUsersService.findAll(input),
+    };
   }
 
   @Query(() => AdminUser, { name: 'adminUser' })

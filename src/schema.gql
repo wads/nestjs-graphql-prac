@@ -16,14 +16,21 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type AdminUserList {
+  offset: Int!
+  limit: Int!
+  total: Int!
+  items: [AdminUser!]!
+}
+
 type Query {
-  adminUsers(query: ListAdminUserInput!): [AdminUser!]!
+  adminUsers(query: OffsetLimitPaginationInput): AdminUserList!
   adminUser(id: Int!): AdminUser!
 }
 
-input ListAdminUserInput {
-  page: Int = 0
-  page_size: Int = 30
+input OffsetLimitPaginationInput {
+  offset: Int = 0
+  limit: Int = 30
 }
 
 type Mutation {
