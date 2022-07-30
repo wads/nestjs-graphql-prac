@@ -2,11 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AdminUser } from './entities/admin-user.entity';
-import { CreateAdminUserDto } from './dto/create-admin-user.dto';
-import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { CreateAdminUserInput } from './dto/create-admin-user.input';
 import { OffsetLimitPaginationInput } from 'src/common/dto/offset-limit-pagination.input';
+import { UpdateAdminUserInput } from './dto/update-admin-user.input';
 
 @Injectable()
 export class AdminUsersService {
@@ -15,10 +14,10 @@ export class AdminUsersService {
     private adminUsersRepository: Repository<AdminUser>,
   ) {}
 
-  async create(dto: CreateAdminUserDto | CreateAdminUserInput) {
+  async create(input: CreateAdminUserInput) {
     const adminUser = this.adminUsersRepository.create({
-      ...dto,
-      password: await this.hassingString(dto.password),
+      ...input,
+      password: await this.hassingString(input.password),
     });
     return await this.adminUsersRepository.save(adminUser);
   }
@@ -61,9 +60,9 @@ export class AdminUsersService {
     );
   }
 
-  async update(id: number, dto: UpdateAdminUserDto) {
+  async update(id: number, input: UpdateAdminUserInput) {
     const adminUser = await this.findOne(id);
-    this.adminUsersRepository.merge(adminUser, dto);
+    this.adminUsersRepository.merge(adminUser, input);
     return await this.adminUsersRepository.save(adminUser);
   }
 

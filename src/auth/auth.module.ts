@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminUsersModule } from 'src/admin-users/admin-users.module';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
 import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
@@ -36,6 +35,5 @@ import { AuthResolver } from './auth.resolver';
     LocalStrategy,
     JwtStrategy,
   ],
-  controllers: [AuthController],
 })
 export class AuthModule {}
