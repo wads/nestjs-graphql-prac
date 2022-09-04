@@ -74,12 +74,12 @@ Nest is [MIT licensed](LICENSE).
 
 
 ## migration
-Generate migration
+Create migration
 ```
-$ docker-compose exec edu-backend npm run typeorm migration:generate -- -n ${migration_name}
+$ make migration-generate migration_name=マイグレーションファイル名
 ```
 
 Run migration
 ```
-$ docker-compose exec edu-backend npm run typeorm migration:run
+$ make migration-run
 ```
