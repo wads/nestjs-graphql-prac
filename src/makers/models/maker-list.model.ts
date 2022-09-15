@@ -1,6 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import { PaginateResult } from 'src/common/models/paginate-result.model';
-import { AdminUserModel } from './admin-user.model';
+import { MakerModel } from './maker.model';
 
 @ObjectType()
-export class AdminUserListModel extends PaginateResult(AdminUserModel) {}
+export class MakerListModel extends PaginateResult(MakerModel) {}

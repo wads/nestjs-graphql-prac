@@ -16,16 +16,33 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type AdminUserList {
+type AdminUserListModel {
   offset: Int!
   limit: Int!
   total: Int!
   items: [AdminUser!]!
 }
 
+type Maker {
+  id: String!
+  slug: String!
+  name: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MakerListModel {
+  offset: Int!
+  limit: Int!
+  total: Int!
+  items: [Maker!]!
+}
+
 type Query {
-  adminUsers(query: OffsetLimitPaginationInput): AdminUserList!
+  adminUsers(query: OffsetLimitPaginationInput): AdminUserListModel!
   adminUser(id: Int!): AdminUser!
+  makers(query: OffsetLimitPaginationInput): MakerListModel!
+  maker(id: String!): Maker!
 }
 
 input OffsetLimitPaginationInput {
@@ -39,6 +56,9 @@ type Mutation {
   deleteOneAdminUser(id: Int!): AdminUser
   login(loginUserInput: LoginUserInput!): AdminUser!
   logout: Boolean
+  createOneMaker(data: CreateMakerInput!): Maker!
+  updateOneMaker(id: String!, data: UpdateMakerInput!): Maker!
+  deleteOneMaker(id: String!): Maker
 }
 
 input CreateAdminUserInput {
@@ -55,4 +75,14 @@ input UpdateAdminUserInput {
 input LoginUserInput {
   email: String!
   password: String!
+}
+
+input CreateMakerInput {
+  slug: String!
+  name: String!
+}
+
+input UpdateMakerInput {
+  slug: String
+  name: String
 }

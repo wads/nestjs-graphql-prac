@@ -76,7 +76,7 @@ Nest is [MIT licensed](LICENSE).
 ## migration
 Create migration
 ```
-$ make migration-generate migration_name=マイグレーションファイル名
+$ make migration-generate NAME=マイグレーションファイル名
 ```
 
 Run migration

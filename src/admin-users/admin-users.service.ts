@@ -17,7 +17,7 @@ export class AdminUsersService {
   async create(input: CreateAdminUserInput) {
     const adminUser = this.adminUsersRepository.create({
       ...input,
-      password: await this.hassingString(input.password),
+      password: await this.hashingString(input.password),
     });
     return await this.adminUsersRepository.save(adminUser);
   }
@@ -42,7 +42,7 @@ export class AdminUsersService {
       return adminUser;
     }
     throw new HttpException(
-      'User with this id does not exist',
+      'AdminUser with this id does not exist',
       HttpStatus.NOT_FOUND,
     );
   }
@@ -71,7 +71,7 @@ export class AdminUsersService {
     return;
   }
 
-  private async hassingString(str: string) {
+  private async hashingString(str: string) {
     return await bcrypt.hash(str, 10);
   }
 }

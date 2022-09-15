@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { AuthResolver } from './auth.resolver';
+import { AuthResolver } from 'src/auth/auth.resolver';
 
 @Module({
   imports: [

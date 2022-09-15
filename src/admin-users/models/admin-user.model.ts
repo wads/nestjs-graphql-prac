@@ -1,8 +1,8 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
 import { GraphQLBoolean } from 'graphql';
 
-@ObjectType()
-export class AdminUser {
+@ObjectType('AdminUser')
+export class AdminUserModel {
   @Field(() => Int)
   id: number;
 

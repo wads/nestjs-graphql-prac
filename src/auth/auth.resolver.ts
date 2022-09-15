@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import { AdminUser } from 'src/admin-users/models/admin-user.model';
+import { AdminUserModel } from 'src/admin-users/models/admin-user.model';
 import { AuthService } from './auth.service';
 import { LoginUserInput } from './dto/login-user.input';
 import { GqlJwtAuthGuard } from './guards/gql-jwt-auth.guard';
@@ -10,13 +10,13 @@ import { GqlLocalAuthGuard } from './guards/gql-local-auth.guard';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => AdminUser, { name: 'login' })
+  @Mutation(() => AdminUserModel, { name: 'login' })
   @UseGuards(GqlLocalAuthGuard)
   async login(
     @Args('loginUserInput') loginUserInput: LoginUserInput,
     @Context() context,
-  ): Promise<AdminUser> {
-    const adminUser = context.user as AdminUser;
+  ): Promise<AdminUserModel> {
+    const adminUser = context.user as AdminUserModel;
     context.res.set({
       'Set-Cookie': [this.authService.getCookieWithJwtToken(adminUser.id)],
     });
