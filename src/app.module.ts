@@ -14,6 +14,7 @@ import { XsrfTokenInterceptor } from './common/interceptors/xsrf-token.intercept
 import { TokenController } from './token/token.controller';
 import config from './config/config';
 import { dbOptions } from './config/db.config';
+import { ItemsModule } from './items/items.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { dbOptions } from './config/db.config';
     AdminUsersModule,
     AuthModule,
     MakersModule,
+    ItemsModule,
   ],
   controllers: [AppController, TokenController],
   providers: [
