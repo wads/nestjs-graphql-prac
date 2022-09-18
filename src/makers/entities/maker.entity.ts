@@ -7,12 +7,16 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Field, GraphQLISODateTime, ObjectType } from "@nestjs/graphql";
 
+@ObjectType()
 @Entity()
 export class Maker {
+  @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Field()
   @Column({
     unique: true,
     nullable: false,
@@ -20,15 +24,18 @@ export class Maker {
   })
   slug: string;
 
+  @Field()
   @Column({
     nullable: false,
     comment: '名前',
   })
   name: string;
 
+  @Field(() => GraphQLISODateTime, { nullable: true })
   @CreateDateColumn({ comment: '作成日時' })
   readonly createdAt?: Date;
 
+  @Field(() => GraphQLISODateTime, { nullable: true })
   @UpdateDateColumn({ comment: '更新日時' })
   readonly updatedAt?: Date;
 

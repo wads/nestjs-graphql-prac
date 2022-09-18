@@ -31,7 +31,7 @@ type Maker {
   updatedAt: DateTime
 }
 
-type MakerListModel {
+type MakerList {
   offset: Int!
   limit: Int!
   total: Int!
@@ -57,7 +57,7 @@ type ItemList {
 type Query {
   adminUsers(query: OffsetLimitPaginationInput): AdminUserListModel!
   adminUser(id: Int!): AdminUser!
-  makers(query: OffsetLimitPaginationInput): MakerListModel!
+  makers(query: OffsetLimitPaginationInput): MakerList!
   maker(id: String!): Maker!
   items(query: OffsetLimitPaginationInput): ItemList!
   item(id: String!): Item!
@@ -74,9 +74,9 @@ type Mutation {
   deleteOneAdminUser(id: Int!): AdminUser
   login(loginUserInput: LoginUserInput!): AdminUser!
   logout: Boolean
-  createOneMaker(data: CreateMakerInput!): Maker!
-  updateOneMaker(id: String!, data: UpdateMakerInput!): Maker!
-  deleteOneMaker(id: String!): Maker
+  createMaker(createMakerInput: CreateMakerInput!): Maker!
+  updateMaker(updateMakerInput: UpdateMakerInput!): Maker!
+  removeMaker(id: String!): Maker
   createItem(createItemInput: CreateItemInput!): Item!
   updateItem(updateItemInput: UpdateItemInput!): Item!
   removeItem(id: String!): Item
@@ -106,6 +106,7 @@ input CreateMakerInput {
 input UpdateMakerInput {
   slug: String
   name: String
+  id: String!
 }
 
 input CreateItemInput {

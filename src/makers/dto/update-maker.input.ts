@@ -1,16 +1,8 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsOptional, Matches, MaxLength } from 'class-validator';
+import { Field, InputType, PartialType } from '@nestjs/graphql';
+import { CreateMakerInput } from './create-maker.input';
 
 @InputType()
-export class UpdateMakerInput {
-  @Field({ nullable: true })
-  @IsOptional()
-  @MaxLength(100)
-  @Matches('^[a-z0-9-_]+$', undefined)
-  slug?: string;
-
-  @Field({ nullable: true })
-  @IsOptional()
-  @MaxLength(255)
-  name?: string;
+export class UpdateMakerInput extends PartialType(CreateMakerInput) {
+  @Field()
+  id: string;
 }

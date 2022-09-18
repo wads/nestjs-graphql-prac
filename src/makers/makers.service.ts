@@ -18,10 +18,6 @@ export class MakersService {
     return await this.makersRepository.save(maker);
   }
 
-  async count() {
-    return await this.makersRepository.count();
-  }
-
   async findAll(input: OffsetLimitPaginationInput) {
     return await this.makersRepository.find({
       order: { id: 'DESC' },
@@ -51,5 +47,9 @@ export class MakersService {
   async delete(id: string) {
     await this.makersRepository.softDelete(id);
     return;
+  }
+
+  async count() {
+    return await this.makersRepository.count();
   }
 }

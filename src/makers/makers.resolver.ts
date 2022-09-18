@@ -1,18 +1,25 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MakerModel } from './models/maker.model';
 import { MakersService } from './makers.service';
 import { GqlJwtAuthGuard } from '../auth/guards/gql-jwt-auth.guard';
 import { CreateMakerInput } from './dto/create-maker.input';
 import { OffsetLimitPaginationInput } from '../common/dto/offset-limit-pagination.input';
-import { MakerListModel } from './models/maker-list.model';
 import { UpdateMakerInput } from './dto/update-maker.input';
+import { Maker } from './entities/maker.entity';
+import { MakerList } from './entities/maker-list.entity';
 
-@Resolver(() => MakerModel)
+@Resolver(() => Maker)
 export class MakersResolver {
   constructor(private readonly makersService: MakersService) {}
 
-  @Query(() => MakerListModel, { name: 'makers' })
+  @Mutation(() => Maker)
+  @UseGuards(GqlJwtAuthGuard)
+  async createMaker(@Args('createMakerInput') createMakerInput: CreateMakerInput) {
+    // TODO: 権限チェック
+    return await this.makersService.create(createMakerInput);
+  }
+
+  @Query(() => MakerList, { name: 'makers' })
   @UseGuards(GqlJwtAuthGuard)
   async findAll(
     @Args('query', { nullable: true }) input?: OffsetLimitPaginationInput,
@@ -25,35 +32,23 @@ export class MakersResolver {
     };
   }
 
-  @Query(() => MakerModel, { name: 'maker' })
+  @Query(() => Maker, { name: 'maker' })
   @UseGuards(GqlJwtAuthGuard)
   async findOne(@Args('id', { type: () => String }) id: string) {
     return this.makersService.findOne(id);
   }
 
-  @Mutation(() => MakerModel, { name: 'createOneMaker' })
+  @Mutation(() => Maker)
   @UseGuards(GqlJwtAuthGuard)
-  async createOne(@Args('data') inputData: CreateMakerInput) {
-    // TODO: 権限チェック
-    return await this.makersService.create(inputData);
-  }
-
-  @Mutation(() => MakerModel, { name: 'updateOneMaker' })
-  @UseGuards(GqlJwtAuthGuard)
-  async updateOne(
-    @Args('id', { type: () => String }) id: string,
-    @Args('data') inputData: UpdateMakerInput,
+  async updateMaker(@Args('updateMakerInput') updateMakerInput: UpdateMakerInput,
   ) {
     // TODO: 権限チェック
-    return this.makersService.update(id, inputData);
+    return this.makersService.update(updateMakerInput.id, updateMakerInput);
   }
 
-  @Mutation(() => MakerModel, {
-    nullable: true,
-    name: 'deleteOneMaker',
-  })
+  @Mutation(() => Maker, { nullable: true })
   @UseGuards(GqlJwtAuthGuard)
-  async deleteOne(@Args('id', { type: () => String }) id: string) {
+  async removeMaker(@Args('id', { type: () => String }) id: string) {
     // TODO: 権限チェック
     return this.makersService.delete(id);
   }
