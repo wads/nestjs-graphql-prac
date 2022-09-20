@@ -1,10 +1,11 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { OmitType, PartialType } from '@nestjs/mapped-types';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsBoolean } from 'class-validator';
-import { CreateAdminUserInput } from './create-admin-user.input';
 
 @InputType()
 export class UpdateAdminUserInput {
+  @Field(() => Int)
+  id: number;
+
   @Field()
   @IsBoolean()
   isActive?: boolean;

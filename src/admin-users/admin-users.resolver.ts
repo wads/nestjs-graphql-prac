@@ -5,18 +5,36 @@ import {
 } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AdminUsersService } from './admin-users.service';
-import { AdminUserModel } from './models/admin-user.model';
-import { AdminUserListModel } from './models/admin-user-list.model';
+import { AdminUser } from './entities/admin-user.entity';
+import { AdminUserList } from './entities/admin-user-list.entity';
 import { CreateAdminUserInput } from './dto/create-admin-user.input';
 import { UpdateAdminUserInput } from './dto/update-admin-user.input';
 import { GqlJwtAuthGuard } from 'src/auth/guards/gql-jwt-auth.guard';
 import { OffsetLimitPaginationInput } from 'src/common/dto/offset-limit-pagination.input';
 
-@Resolver(() => AdminUserModel)
+@Resolver(() => AdminUser)
 export class AdminUsersResolver {
   constructor(private readonly adminUsersService: AdminUsersService) {}
 
-  @Query(() => AdminUserListModel, { name: 'adminUsers' })
+  @Mutation(() => AdminUser)
+  @UseGuards(GqlJwtAuthGuard)
+  async createAdminUser(
+    @Args('createAdminUserInput') createAdminUserInput: CreateAdminUserInput,
+  ) {
+    // TODO: 権限チェック
+    try {
+      return await this.adminUsersService.create(createAdminUserInput);
+    } catch (e) {
+      if (e.code == 'ER_DUP_ENTRY') {
+        throw new UnprocessableEntityException({
+          message: `Duplicate entry ${createAdminUserInput.email}`,
+        });
+      }
+      throw new InternalServerErrorException();
+    }
+  }
+
+  @Query(() => AdminUserList, { name: 'adminUsers' })
   @UseGuards(GqlJwtAuthGuard)
   async findAll(
     @Args('query', { nullable: true }) input?: OffsetLimitPaginationInput,
@@ -29,45 +47,28 @@ export class AdminUsersResolver {
     };
   }
 
-  @Query(() => AdminUserModel, { name: 'adminUser' })
+  @Query(() => AdminUser, { name: 'adminUser' })
   @UseGuards(GqlJwtAuthGuard)
   async findOne(@Args('id', { type: () => Int }) id: number) {
     return this.adminUsersService.findOne(id);
   }
 
-  @Mutation(() => AdminUserModel, { name: 'createOneAdminUser' })
+  @Mutation(() => AdminUser)
   @UseGuards(GqlJwtAuthGuard)
-  async createOne(@Args('data') inputData: CreateAdminUserInput) {
-    // TODO: 権限チェック
-    try {
-      return await this.adminUsersService.create(inputData);
-    } catch (e) {
-      if (e.code == 'ER_DUP_ENTRY') {
-        throw new UnprocessableEntityException({
-          message: `Duplicate entry ${inputData.email}`,
-        });
-      }
-      throw new InternalServerErrorException();
-    }
-  }
-
-  @Mutation(() => AdminUserModel, { name: 'updateOneAdminUser' })
-  @UseGuards(GqlJwtAuthGuard)
-  async updateOne(
-    @Args('id', { type: () => Int }) id: number,
-    @Args('data') inputData: UpdateAdminUserInput,
+  async updateAdminUser(
+    @Args('updateAdminUserInput') updateAdminUserInput: UpdateAdminUserInput,
   ) {
     // TODO: 権限チェック
-    return this.adminUsersService.update(id, inputData);
+    return this.adminUsersService.update(
+      updateAdminUserInput.id,
+      updateAdminUserInput,
+    );
   }
 
-  @Mutation(() => AdminUserModel, {
-    nullable: true,
-    name: 'deleteOneAdminUser',
-  })
+  @Mutation(() => AdminUser, { nullable: true })
   @UseGuards(GqlJwtAuthGuard)
-  async deleteOne(@Args('id', { type: () => Int }) id: number) {
+  async removeAdminUser(@Args('id', { type: () => Int }) id: number) {
     // TODO: 権限チェック
-    return this.adminUsersService.delete(id);
+    return this.adminUsersService.remove(id);
   }
 }

@@ -22,10 +22,6 @@ export class AdminUsersService {
     return await this.adminUsersRepository.save(adminUser);
   }
 
-  async count() {
-    return await this.adminUsersRepository.count();
-  }
-
   async findAll(input: OffsetLimitPaginationInput) {
     return await this.adminUsersRepository.find({
       order: { id: 'DESC' },
@@ -66,9 +62,13 @@ export class AdminUsersService {
     return await this.adminUsersRepository.save(adminUser);
   }
 
-  async delete(id: number) {
+  async remove(id: number) {
     await this.adminUsersRepository.softDelete(id);
     return;
+  }
+
+  async count() {
+    return await this.adminUsersRepository.count();
   }
 
   private async hashingString(str: string) {

@@ -16,7 +16,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type AdminUserListModel {
+type AdminUserList {
   offset: Int!
   limit: Int!
   total: Int!
@@ -55,7 +55,7 @@ type ItemList {
 }
 
 type Query {
-  adminUsers(query: OffsetLimitPaginationInput): AdminUserListModel!
+  adminUsers(query: OffsetLimitPaginationInput): AdminUserList!
   adminUser(id: Int!): AdminUser!
   makers(query: OffsetLimitPaginationInput): MakerList!
   maker(id: String!): Maker!
@@ -69,9 +69,9 @@ input OffsetLimitPaginationInput {
 }
 
 type Mutation {
-  createOneAdminUser(data: CreateAdminUserInput!): AdminUser!
-  updateOneAdminUser(id: Int!, data: UpdateAdminUserInput!): AdminUser!
-  deleteOneAdminUser(id: Int!): AdminUser
+  createAdminUser(createAdminUserInput: CreateAdminUserInput!): AdminUser!
+  updateAdminUser(updateAdminUserInput: UpdateAdminUserInput!): AdminUser!
+  removeAdminUser(id: Int!): AdminUser
   login(loginUserInput: LoginUserInput!): AdminUser!
   logout: Boolean
   createMaker(createMakerInput: CreateMakerInput!): Maker!
@@ -90,6 +90,7 @@ input CreateAdminUserInput {
 }
 
 input UpdateAdminUserInput {
+  id: Int!
   isActive: Boolean!
 }
 

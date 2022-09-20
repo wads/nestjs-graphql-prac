@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from "class-transformer";
 
 @ObjectType()
 @Entity()
@@ -46,6 +47,7 @@ export class Item {
   @UpdateDateColumn({ comment: '更新日時' })
   readonly updatedAt?: Date;
 
+  @Exclude()
   @DeleteDateColumn({ comment: '削除日時' })
   readonly deletedAt?: Date;
 }
