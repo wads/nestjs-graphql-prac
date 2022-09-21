@@ -9,7 +9,7 @@ import { AdminUser } from './entities/admin-user.entity';
 import { AdminUserList } from './entities/admin-user-list.entity';
 import { CreateAdminUserInput } from './dto/create-admin-user.input';
 import { UpdateAdminUserInput } from './dto/update-admin-user.input';
-import { GqlJwtAuthGuard } from 'src/auth/guards/gql-jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { OffsetLimitPaginationInput } from 'src/common/dto/offset-limit-pagination.input';
 
 @Resolver(() => AdminUser)
@@ -17,7 +17,7 @@ export class AdminUsersResolver {
   constructor(private readonly adminUsersService: AdminUsersService) {}
 
   @Mutation(() => AdminUser)
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async createAdminUser(
     @Args('createAdminUserInput') createAdminUserInput: CreateAdminUserInput,
   ) {
@@ -35,7 +35,7 @@ export class AdminUsersResolver {
   }
 
   @Query(() => AdminUserList, { name: 'adminUsers' })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async findAll(
     @Args('query', { nullable: true }) input?: OffsetLimitPaginationInput,
   ) {
@@ -48,13 +48,13 @@ export class AdminUsersResolver {
   }
 
   @Query(() => AdminUser, { name: 'adminUser' })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async findOne(@Args('id', { type: () => Int }) id: number) {
     return this.adminUsersService.findOne(id);
   }
 
   @Mutation(() => AdminUser)
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async updateAdminUser(
     @Args('updateAdminUserInput') updateAdminUserInput: UpdateAdminUserInput,
   ) {
@@ -66,7 +66,7 @@ export class AdminUsersResolver {
   }
 
   @Mutation(() => AdminUser, { nullable: true })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async removeAdminUser(@Args('id', { type: () => Int }) id: number) {
     // TODO: 権限チェック
     return this.adminUsersService.remove(id);

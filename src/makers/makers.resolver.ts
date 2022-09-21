@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MakersService } from './makers.service';
-import { GqlJwtAuthGuard } from '../auth/guards/gql-jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateMakerInput } from './dto/create-maker.input';
 import { OffsetLimitPaginationInput } from '../common/dto/offset-limit-pagination.input';
 import { UpdateMakerInput } from './dto/update-maker.input';
@@ -13,14 +13,16 @@ export class MakersResolver {
   constructor(private readonly makersService: MakersService) {}
 
   @Mutation(() => Maker)
-  @UseGuards(GqlJwtAuthGuard)
-  async createMaker(@Args('createMakerInput') createMakerInput: CreateMakerInput) {
+  @UseGuards(JwtAuthGuard)
+  async createMaker(
+    @Args('createMakerInput') createMakerInput: CreateMakerInput,
+  ) {
     // TODO: 権限チェック
     return await this.makersService.create(createMakerInput);
   }
 
   @Query(() => MakerList, { name: 'makers' })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async findAll(
     @Args('query', { nullable: true }) input?: OffsetLimitPaginationInput,
   ) {
@@ -33,21 +35,22 @@ export class MakersResolver {
   }
 
   @Query(() => Maker, { name: 'maker' })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async findOne(@Args('id', { type: () => String }) id: string) {
     return this.makersService.findOne(id);
   }
 
   @Mutation(() => Maker)
-  @UseGuards(GqlJwtAuthGuard)
-  async updateMaker(@Args('updateMakerInput') updateMakerInput: UpdateMakerInput,
+  @UseGuards(JwtAuthGuard)
+  async updateMaker(
+    @Args('updateMakerInput') updateMakerInput: UpdateMakerInput,
   ) {
     // TODO: 権限チェック
     return this.makersService.update(updateMakerInput.id, updateMakerInput);
   }
 
   @Mutation(() => Maker, { nullable: true })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async removeMaker(@Args('id', { type: () => String }) id: string) {
     // TODO: 権限チェック
     return this.makersService.delete(id);

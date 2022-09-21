@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { GqlJwtAuthGuard } from '../auth/guards/gql-jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ItemsService } from './items.service';
 import { Item } from './entities/item.entity';
 import { ItemList } from './entities/item-list.entity';
@@ -13,13 +13,13 @@ export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
   @Mutation(() => Item)
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   createItem(@Args('createItemInput') createItemInput: CreateItemInput) {
     return this.itemsService.create(createItemInput);
   }
 
   @Query(() => ItemList, { name: 'items' })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async findAll(
     @Args('query', { nullable: true }) input?: OffsetLimitPaginationInput,
   ) {
@@ -32,19 +32,19 @@ export class ItemsResolver {
   }
 
   @Query(() => Item, { name: 'item' })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.itemsService.findOne(id);
   }
 
   @Mutation(() => Item)
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   updateItem(@Args('updateItemInput') updateItemInput: UpdateItemInput) {
     return this.itemsService.update(updateItemInput.id, updateItemInput);
   }
 
   @Mutation(() => Item, { nullable: true })
-  @UseGuards(GqlJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   removeItem(@Args('id', { type: () => String }) id: string) {
     return this.itemsService.remove(id);
   }
