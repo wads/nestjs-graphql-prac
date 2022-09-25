@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MakersService } from './makers.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateMakerInput } from './dto/create-maker.input';
@@ -36,7 +36,7 @@ export class MakersResolver {
 
   @Query(() => Maker, { name: 'maker' })
   @UseGuards(JwtAuthGuard)
-  async findOne(@Args('id', { type: () => String }) id: string) {
+  async findOne(@Args('id', { type: () => ID }) id: string) {
     return this.makersService.findOne(id);
   }
 
@@ -51,7 +51,7 @@ export class MakersResolver {
 
   @Mutation(() => Maker, { nullable: true })
   @UseGuards(JwtAuthGuard)
-  async removeMaker(@Args('id', { type: () => String }) id: string) {
+  async removeMaker(@Args('id', { type: () => ID }) id: string) {
     // TODO: 権限チェック
     return this.makersService.delete(id);
   }

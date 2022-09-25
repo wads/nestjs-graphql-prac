@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, GraphQLISODateTime, ID } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
@@ -7,12 +7,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Exclude } from "class-transformer";
+import { Exclude } from 'class-transformer';
 
 @ObjectType()
 @Entity()
 export class Item {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

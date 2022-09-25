@@ -24,7 +24,7 @@ type AdminUserList {
 }
 
 type Maker {
-  id: String!
+  id: ID!
   slug: String!
   name: String!
   createdAt: DateTime
@@ -39,7 +39,7 @@ type MakerList {
 }
 
 type Item {
-  id: String!
+  id: ID!
   slug: String!
   name: String!
   description: String!
@@ -58,9 +58,9 @@ type Query {
   adminUsers(query: OffsetLimitPaginationInput): AdminUserList!
   adminUser(id: Int!): AdminUser!
   makers(query: OffsetLimitPaginationInput): MakerList!
-  maker(id: String!): Maker!
+  maker(id: ID!): Maker!
   items(query: OffsetLimitPaginationInput): ItemList!
-  item(id: String!): Item!
+  item(id: ID!): Item!
 }
 
 input OffsetLimitPaginationInput {
@@ -76,10 +76,10 @@ type Mutation {
   logout: Boolean
   createMaker(createMakerInput: CreateMakerInput!): Maker!
   updateMaker(updateMakerInput: UpdateMakerInput!): Maker!
-  removeMaker(id: String!): Maker
+  removeMaker(id: ID!): Maker
   createItem(createItemInput: CreateItemInput!): Item!
   updateItem(updateItemInput: UpdateItemInput!): Item!
-  removeItem(id: String!): Item
+  removeItem(id: ID!): Item
 }
 
 input CreateAdminUserInput {
@@ -107,7 +107,7 @@ input CreateMakerInput {
 input UpdateMakerInput {
   slug: String
   name: String
-  id: String!
+  id: ID!
 }
 
 input CreateItemInput {
@@ -120,5 +120,5 @@ input UpdateItemInput {
   slug: String
   name: String
   description: String
-  id: String!
+  id: ID!
 }

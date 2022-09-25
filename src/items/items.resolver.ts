@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ID } from "@nestjs/graphql";
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ItemsService } from './items.service';
@@ -33,7 +33,7 @@ export class ItemsResolver {
 
   @Query(() => Item, { name: 'item' })
   @UseGuards(JwtAuthGuard)
-  findOne(@Args('id', { type: () => String }) id: string) {
+  findOne(@Args('id', { type: () => ID }) id: string) {
     return this.itemsService.findOne(id);
   }
 
@@ -45,7 +45,7 @@ export class ItemsResolver {
 
   @Mutation(() => Item, { nullable: true })
   @UseGuards(JwtAuthGuard)
-  removeItem(@Args('id', { type: () => String }) id: string) {
+  removeItem(@Args('id', { type: () => ID }) id: string) {
     return this.itemsService.remove(id);
   }
 }
