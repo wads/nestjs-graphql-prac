@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { Item } from '../../items/entities/item.entity';
 
 @ObjectType()
 @Entity()
@@ -30,6 +32,10 @@ export class Maker {
     comment: '名前',
   })
   name: string;
+
+  // @Field(() => [Item])
+  @OneToMany(() => Item, (item) => item.maker)
+  items: Item[];
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   @CreateDateColumn({ comment: '作成日時' })

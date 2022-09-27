@@ -4,10 +4,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Maker } from '../../makers/entities/maker.entity';
 
 @ObjectType()
 @Entity()
@@ -15,6 +17,14 @@ export class Item {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Field(() => Maker)
+  @ManyToOne(() => Maker, (maker) => maker.items, {
+    nullable: false,
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
+  })
+  maker: Maker;
 
   @Field()
   @Column({

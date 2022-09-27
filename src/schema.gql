@@ -23,6 +23,16 @@ type AdminUserList {
   items: [AdminUser!]!
 }
 
+type Item {
+  id: ID!
+  maker: Maker!
+  slug: String!
+  name: String!
+  description: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
 type Maker {
   id: ID!
   slug: String!
@@ -36,15 +46,6 @@ type MakerList {
   limit: Int!
   total: Int!
   items: [Maker!]!
-}
-
-type Item {
-  id: ID!
-  slug: String!
-  name: String!
-  description: String!
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 type ItemList {

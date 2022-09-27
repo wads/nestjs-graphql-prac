@@ -20,6 +20,7 @@ export class ItemsService {
 
   async findAll(input: OffsetLimitPaginationInput) {
     return await this.itemsRepository.find({
+      relations: { maker: true },
       order: { id: 'DESC' },
       take: input.limit,
       skip: input.offset,
@@ -29,6 +30,7 @@ export class ItemsService {
   async findOne(id: string) {
     const item = await this.itemsRepository.findOne({
       where: { id: id },
+      relations: { maker: true },
     });
     if (item) {
       return item;
