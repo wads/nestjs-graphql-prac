@@ -1,5 +1,13 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  ID,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { MakersService } from './makers.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateMakerInput } from './dto/create-maker.input';
@@ -7,10 +15,14 @@ import { OffsetLimitPaginationInput } from '../common/dto/offset-limit-paginatio
 import { UpdateMakerInput } from './dto/update-maker.input';
 import { Maker } from './entities/maker.entity';
 import { MakerList } from './entities/maker-list.entity';
+import { ItemsService } from '../items/items.service';
 
 @Resolver(() => Maker)
 export class MakersResolver {
-  constructor(private readonly makersService: MakersService) {}
+  constructor(
+    private readonly itemsService: ItemsService,
+    private readonly makersService: MakersService,
+  ) {}
 
   @Mutation(() => Maker)
   @UseGuards(JwtAuthGuard)
@@ -54,5 +66,10 @@ export class MakersResolver {
   async removeMaker(@Args('id', { type: () => ID }) id: string) {
     // TODO: 権限チェック
     return this.makersService.delete(id);
+  }
+
+  @ResolveField()
+  async items(@Parent() maker: Maker) {
+    return this.itemsService.findAllByMakerId(maker.id);
   }
 }

@@ -21,7 +21,7 @@ export class ItemsService {
   async findAll(input: OffsetLimitPaginationInput) {
     return await this.itemsRepository.find({
       relations: { maker: true },
-      order: { id: 'DESC' },
+      order: { createdAt: 'DESC' },
       take: input.limit,
       skip: input.offset,
     });
@@ -54,5 +54,16 @@ export class ItemsService {
 
   async count() {
     return await this.itemsRepository.count();
+  }
+
+  // TODO: queryの書き方
+  //       findAll()とのオーバーロードにしたい
+  async findAllByMakerId(makerId: string) {
+    return this.itemsRepository
+      .createQueryBuilder('item')
+      .leftJoinAndSelect('item.maker', 'maker')
+      .where('item.makerId = :id', { id: makerId })
+      .orderBy('item.createdAt', 'DESC')
+      .getMany();
   }
 }

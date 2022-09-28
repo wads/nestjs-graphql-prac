@@ -33,7 +33,7 @@ export class Maker {
   })
   name: string;
 
-  // @Field(() => [Item])
+  @Field(() => [Item])
   @OneToMany(() => Item, (item) => item.maker)
   items: Item[];
 

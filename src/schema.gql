@@ -37,6 +37,7 @@ type Maker {
   id: ID!
   slug: String!
   name: String!
+  items: [Item!]!
   createdAt: DateTime
   updatedAt: DateTime
 }
