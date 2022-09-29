@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
-import TokenPayload from './interfaces/token-payload.interface';
+import TokenPayload from '../common/interfaces/token-payload.interface';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
