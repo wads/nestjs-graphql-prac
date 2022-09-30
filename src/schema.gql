@@ -25,10 +25,13 @@ type AdminUserList {
 
 type Item {
   id: ID!
+  makerId: ID!
   maker: Maker!
   slug: String!
   name: String!
   description: String!
+  price: Int!
+  targetGender: Int!
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -113,14 +116,20 @@ input UpdateMakerInput {
 }
 
 input CreateItemInput {
+  makerId: ID!
   slug: String!
   name: String!
   description: String!
+  price: Int!
+  targetGender: Int!
 }
 
 input UpdateItemInput {
+  makerId: ID
   slug: String
   name: String
   description: String
+  price: Int
+  targetGender: Int
   id: ID!
 }
