@@ -11,10 +11,12 @@ import {
 @InputType()
 export class CreateAdminUserInput {
   @Field()
+  @IsNotEmpty()
   @IsEmail()
   email: string;
 
   @Field()
+  @IsNotEmpty()
   @Length(8, 50)
   password: string;
 

@@ -7,7 +7,7 @@ import {
   IsPositive,
   Matches,
   Max,
-  MaxLength
+  MaxLength,
 } from 'class-validator';
 import { ItemTargetGender } from '../entities/item.entity';
 import { TargetGender } from '../../common/interfaces/target-gender.interface';
@@ -34,12 +34,12 @@ export class CreateItemInput {
   @MaxLength(65535)
   description: string;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsInt()
   @IsPositive()
   @Max(10000000)
-  price: number;
+  price?: number;
 
   @Field(() => Int)
   @IsNotEmpty()

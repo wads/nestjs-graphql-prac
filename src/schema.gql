@@ -96,7 +96,7 @@ input CreateAdminUserInput {
 
 input UpdateAdminUserInput {
   id: Int!
-  isActive: Boolean!
+  isActive: Boolean
 }
 
 input LoginUserInput {
@@ -120,7 +120,7 @@ input CreateItemInput {
   slug: String!
   name: String!
   description: String!
-  price: Int!
+  price: Int
   targetGender: Int!
 }
 
