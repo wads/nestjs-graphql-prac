@@ -19,7 +19,8 @@ export class AdminUsersService {
       ...input,
       password: await this.hashingString(input.password),
     });
-    return await this.adminUsersRepository.save(adminUser);
+    await this.adminUsersRepository.save(adminUser);
+    return this.findOne(adminUser.id);
   }
 
   async findAll(input: OffsetLimitPaginationInput) {

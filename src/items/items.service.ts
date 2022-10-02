@@ -15,7 +15,8 @@ export class ItemsService {
 
   async create(input: CreateItemInput) {
     const item = this.itemsRepository.create(input);
-    return await this.itemsRepository.save(item);
+    await this.itemsRepository.save(item);
+    return this.findOne(item.id);
   }
 
   async findAll(input: OffsetLimitPaginationInput) {

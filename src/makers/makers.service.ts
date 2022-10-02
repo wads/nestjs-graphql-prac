@@ -15,7 +15,8 @@ export class MakersService {
 
   async create(input: CreateMakerInput) {
     const maker = this.makersRepository.create(input);
-    return await this.makersRepository.save(maker);
+    await this.makersRepository.save(maker);
+    return this.findOne(maker.id);
   }
 
   async findAll(input: OffsetLimitPaginationInput) {
