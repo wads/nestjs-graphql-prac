@@ -1,4 +1,10 @@
-import { ObjectType, Field, GraphQLISODateTime, ID, Int } from "@nestjs/graphql";
+import {
+  ObjectType,
+  Field,
+  GraphQLISODateTime,
+  ID,
+  Int,
+} from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
@@ -7,7 +13,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Maker } from '../../makers/entities/maker.entity';
