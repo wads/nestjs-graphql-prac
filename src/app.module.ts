@@ -15,6 +15,7 @@ import { TokenController } from './token/token.controller';
 import config from './config/config';
 import { dbOptions } from './config/db.config';
 import { ItemsModule } from './items/items.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ItemsModule } from './items/items.module';
     AuthModule,
     MakersModule,
     ItemsModule,
+    CategoriesModule,
   ],
   controllers: [AppController, TokenController],
   providers: [

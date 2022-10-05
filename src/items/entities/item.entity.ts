@@ -37,6 +37,7 @@ export class Item {
     type: 'varchar',
     length: 36,
     nullable: false,
+    comment: 'メーカーID',
   })
   @Field(() => ID)
   makerId: string;

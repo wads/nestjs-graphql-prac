@@ -59,6 +59,12 @@ type ItemList {
   items: [Item!]!
 }
 
+type Category {
+  id: Int!
+  slug: String!
+  name: String!
+}
+
 type Query {
   adminUsers(query: OffsetLimitPaginationInput): AdminUserList!
   adminUser(id: Int!): AdminUser!
@@ -66,6 +72,8 @@ type Query {
   maker(id: ID!): Maker!
   items(query: OffsetLimitPaginationInput): ItemList!
   item(id: ID!): Item!
+  categories: [Category!]!
+  category(id: Int!): Category!
 }
 
 input OffsetLimitPaginationInput {
@@ -85,6 +93,9 @@ type Mutation {
   createItem(createItemInput: CreateItemInput!): Item!
   updateItem(updateItemInput: UpdateItemInput!): Item!
   removeItem(id: ID!): Item
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
 }
 
 input CreateAdminUserInput {
@@ -132,4 +143,16 @@ input UpdateItemInput {
   price: Int
   targetGender: Int
   id: ID!
+}
+
+input CreateCategoryInput {
+  id: Int!
+  slug: String!
+  name: String!
+}
+
+input UpdateCategoryInput {
+  id: Int!
+  slug: String
+  name: String
 }
