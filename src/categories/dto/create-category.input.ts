@@ -1,5 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsNotEmpty, Matches, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, Matches, MaxLength } from 'class-validator';
 
 @InputType()
 export class CreateCategoryInput {
@@ -17,4 +17,8 @@ export class CreateCategoryInput {
   @IsNotEmpty()
   @MaxLength(255)
   name: string;
+
+  @Field(() => Int, { nullable: true })
+  @IsOptional()
+  parentCategoryId?: number;
 }

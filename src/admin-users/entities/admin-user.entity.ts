@@ -14,7 +14,9 @@ import { GraphQLBoolean } from 'graphql';
 @Entity()
 export class AdminUser {
   @Field(() => Int)
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    unsigned: true,
+  })
   id: number;
 
   @Field()

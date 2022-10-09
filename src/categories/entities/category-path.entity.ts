@@ -6,24 +6,22 @@ import {
   Entity,
   Index,
   JoinColumn,
-  ManyToOne,
+  ManyToOne, PrimaryColumn,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from "typeorm";
 import { Category } from './category.entity';
 
+/*
+  カテゴリーのツリー構造を表現するテーブル
+  Closure Table方式を採用
+  https://www.slideshare.net/billkarwin/models-for-hierarchical-data
+ */
 @ObjectType()
 @Entity()
-@Index(['ancestorId', 'descendantId'], { unique: true })
 export class CategoryPath {
-  @PrimaryGeneratedColumn({
-    type: 'bigint',
-    unsigned: true,
-  })
-  id: number;
-
-  @Column({
-    type: 'bigint',
+  @PrimaryColumn({
+    type: 'int',
     unsigned: true,
     nullable: false,
     comment: '先祖ID',
@@ -38,8 +36,8 @@ export class CategoryPath {
   @JoinColumn({ name: 'ancestorId' })
   ancestor: Category;
 
-  @Column({
-    type: 'bigint',
+  @PrimaryColumn({
+    type: 'int',
     unsigned: true,
     nullable: false,
     comment: '子孫ID',
@@ -61,14 +59,11 @@ export class CategoryPath {
     default: 0,
     comment: '階層の深さ',
   })
-  depth: number;
+  length: number;
 
   @CreateDateColumn({ comment: '作成日時' })
   readonly createdAt?: Date;
 
   @UpdateDateColumn({ comment: '更新日時' })
   readonly updatedAt?: Date;
-
-  @DeleteDateColumn({ comment: '削除日時' })
-  readonly deletedAt?: Date;
 }

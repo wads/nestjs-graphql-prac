@@ -13,7 +13,7 @@ import {
 export class Category {
   @Field(() => Int)
   @PrimaryColumn({
-    type: 'bigint',
+    type: 'int',
     unsigned: true,
   })
   id: number;
@@ -40,7 +40,4 @@ export class Category {
 
   @UpdateDateColumn({ comment: '更新日時' })
   readonly updatedAt?: Date;
-
-  @DeleteDateColumn({ comment: '削除日時' })
-  readonly deletedAt?: Date;
 }
