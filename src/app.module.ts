@@ -16,6 +16,7 @@ import config from './config/config';
 import { dbOptions } from './config/db.config';
 import { ItemsModule } from './items/items.module';
 import { CategoriesModule } from './categories/categories.module';
+import { TargetAgesModule } from './target-ages/target-ages.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { CategoriesModule } from './categories/categories.module';
     MakersModule,
     ItemsModule,
     CategoriesModule,
+    TargetAgesModule,
   ],
   controllers: [AppController, TokenController],
   providers: [
