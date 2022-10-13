@@ -18,6 +18,10 @@ export class CreateItemInput {
   @IsNotEmpty()
   makerId: string;
 
+  @Field(() => Int)
+  @IsOptional()
+  targetAgeId: number;
+
   @Field()
   @IsNotEmpty()
   @MaxLength(100)

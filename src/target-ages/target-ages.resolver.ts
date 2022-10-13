@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { TargetAgesService } from './target-ages.service';
 import { TargetAge } from './entities/target-age.entity';
 import { CreateTargetAgeInput } from './dto/create-target-age.input';
@@ -7,10 +15,14 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { OffsetLimitPaginationInput } from '../common/dto/offset-limit-pagination.input';
 import { TargetAgeList } from './entities/target-age-list.entity';
+import { ItemsService } from '../items/items.service';
 
 @Resolver(() => TargetAge)
 export class TargetAgesResolver {
-  constructor(private readonly targetAgesService: TargetAgesService) {}
+  constructor(
+    private readonly itemsService: ItemsService,
+    private readonly targetAgesService: TargetAgesService,
+  ) {}
 
   @Mutation(() => TargetAge)
   @UseGuards(JwtAuthGuard)
@@ -56,5 +68,10 @@ export class TargetAgesResolver {
   @UseGuards(JwtAuthGuard)
   removeTargetAge(@Args('id', { type: () => Int }) id: number) {
     return this.targetAgesService.remove(id);
+  }
+
+  @ResolveField()
+  async items(@Parent() targetAge: TargetAge) {
+    return this.itemsService.findAllByTargetAgeId(targetAge.id);
   }
 }

@@ -23,10 +23,19 @@ type AdminUserList {
   items: [AdminUser!]!
 }
 
+type TargetAge {
+  id: Int!
+  slug: String!
+  name: String!
+  items: [Item!]!
+}
+
 type Item {
   id: ID!
   makerId: ID!
   maker: Maker!
+  targetAgeId: Int
+  targetAge: TargetAge
   slug: String!
   name: String!
   description: String!
@@ -70,12 +79,6 @@ type CategoryList {
   limit: Int!
   total: Int!
   items: [Category!]!
-}
-
-type TargetAge {
-  id: Int!
-  slug: String!
-  name: String!
 }
 
 type TargetAgeList {
@@ -153,6 +156,7 @@ input UpdateMakerInput {
 
 input CreateItemInput {
   makerId: ID!
+  targetAgeId: Int!
   slug: String!
   name: String!
   description: String!
@@ -162,6 +166,7 @@ input CreateItemInput {
 
 input UpdateItemInput {
   makerId: ID
+  targetAgeId: Int
   slug: String
   name: String
   description: String
