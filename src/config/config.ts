@@ -20,7 +20,7 @@ export default () => ({
       sameSite: 'lax',
     },
     token: {
-      name: 'edu_xsrf_token',
+      name: 'ngp_xsrf_token',
       max_age: process.env.XSRF_TOKEN_MAX_AGE,
     },
   },

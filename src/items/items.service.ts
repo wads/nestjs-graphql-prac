@@ -21,7 +21,7 @@ export class ItemsService {
 
   async findAll(input: OffsetLimitPaginationInput) {
     return await this.itemsRepository.find({
-      relations: { maker: true, targetAge: true },
+      relations: { maker: true },
       order: { createdAt: 'DESC' },
       take: input.limit,
       skip: input.offset,
@@ -31,7 +31,7 @@ export class ItemsService {
   async findOne(id: string) {
     const item = await this.itemsRepository.findOne({
       where: { id: id },
-      relations: { maker: true, targetAge: true },
+      relations: { maker: true },
     });
     if (item) {
       return item;
@@ -64,17 +64,6 @@ export class ItemsService {
       .createQueryBuilder('item')
       .leftJoinAndSelect('item.maker', 'maker')
       .where('item.makerId = :id', { id: makerId })
-      .orderBy('item.createdAt', 'DESC')
-      .getMany();
-  }
-
-  // TODO: queryの書き方
-  //       findAll()とのオーバーロードにしたい
-  async findAllByTargetAgeId(targetAgeId: number) {
-    return this.itemsRepository
-      .createQueryBuilder('item')
-      .leftJoinAndSelect('item.targetAge', 'targetAge')
-      .where('item.targetAgeId = :id', { id: targetAgeId })
       .orderBy('item.createdAt', 'DESC')
       .getMany();
   }

@@ -23,19 +23,10 @@ type AdminUserList {
   items: [AdminUser!]!
 }
 
-type TargetAge {
-  id: Int!
-  slug: String!
-  name: String!
-  items: [Item!]!
-}
-
 type Item {
   id: ID!
   makerId: ID!
   maker: Maker!
-  targetAgeId: Int
-  targetAge: TargetAge
   slug: String!
   name: String!
   description: String!
@@ -81,11 +72,11 @@ type CategoryList {
   items: [Category!]!
 }
 
-type TargetAgeList {
-  offset: Int!
-  limit: Int!
-  total: Int!
-  items: [TargetAge!]!
+type TargetAge {
+  id: Int!
+  slug: String!
+  name: String!
+  items: [Item!]!
 }
 
 type Query {
@@ -97,8 +88,6 @@ type Query {
   item(id: ID!): Item!
   categories(query: OffsetLimitPaginationInput): CategoryList!
   category(id: Int!): Category!
-  targetAges(query: OffsetLimitPaginationInput): TargetAgeList!
-  targetAge(id: Int!): TargetAge!
 }
 
 input OffsetLimitPaginationInput {
@@ -121,9 +110,6 @@ type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   removeCategory(id: Int!): Category
-  createTargetAge(createTargetAgeInput: CreateTargetAgeInput!): TargetAge!
-  updateTargetAge(updateTargetAgeInput: UpdateTargetAgeInput!): TargetAge!
-  removeTargetAge(id: Int!): TargetAge
 }
 
 input CreateAdminUserInput {
@@ -186,15 +172,4 @@ input UpdateCategoryInput {
   id: Int!
   slug: String
   name: String
-}
-
-input CreateTargetAgeInput {
-  slug: String!
-  name: String!
-}
-
-input UpdateTargetAgeInput {
-  slug: String
-  name: String
-  id: Int!
 }

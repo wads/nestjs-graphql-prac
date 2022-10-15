@@ -18,7 +18,6 @@ import {
 import { Exclude } from 'class-transformer';
 import { Maker } from '../../makers/entities/maker.entity';
 import { TargetGender } from '../../common/interfaces/target-gender.interface';
-import { TargetAge } from '../../target-ages/entities/target-age.entity';
 
 export const ItemTargetGender: { [key in TargetGender]: number } = {
   unknown: 0,
@@ -51,24 +50,6 @@ export class Item {
   })
   @JoinColumn({ name: 'makerId' })
   maker: Maker;
-
-  @Column({
-    type: 'int',
-    unsigned: true,
-    nullable: true,
-    comment: '対象年齢ID',
-  })
-  @Field(() => Int, { nullable: true })
-  targetAgeId: number;
-
-  @Field(() => TargetAge, { nullable: true })
-  @ManyToOne(() => TargetAge, (targetAge) => targetAge.items, {
-    nullable: true,
-    onDelete: 'RESTRICT',
-    onUpdate: 'RESTRICT',
-  })
-  @JoinColumn({ name: 'targetAgeId' })
-  targetAge: TargetAge;
 
   @Field()
   @Column({

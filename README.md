@@ -83,3 +83,8 @@ Run migration
 ```
 $ make migration-run
 ```
+
+GraphQL playground
+```angular2html
+http://localhost:3000/graphql
+```
